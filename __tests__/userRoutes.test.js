@@ -1,4 +1,4 @@
-const request = require("sueprtest");
+const request = require("supertest");
 const jwt = require("jsonwebtoken");
 
 const app = require("../app");
@@ -139,17 +139,16 @@ describe("User Messages Routes Test", function(){
         test("401 error if invalid user", async function() {
             let response = await request(app)
                 .get("/users/sjdhfgasfhksaf/to")
-                .send({_token: testUserToken})
+                .send({_token: testUserToken});
             
-            expect(response.statusCode).toEqual(401)
+            expect(response.statusCode).toEqual(401);
         });
 
-        test("401 of non-authorized", async function () {
+        test("401 on wrong auth", async function () {
             let response = await request(app)
-                .get("users/test1/to")
-                .send({ _token: "wrong" })
-
-            expect(response.statusCode).toEqual(401)
+                .get("/users/test1/to")
+                .send({ _token: "wrong" });
+            expect(response.statusCode).toEqual(401);
         });
     });
 
@@ -184,20 +183,23 @@ describe("User Messages Routes Test", function(){
             });
         });
 
-        test("401 when nonexistent username", async function() {
+        test("401 error if invalid user", async function () {
             let response = await request(app)
-                .get("users/jksdfkjsahf/from")
-                .send({_token: testUserToken})
-            
-            expect(response.statusCode).toEqual(401)
+                .get("/users/wrong/from")
+                .send({ _token: "wrong" });
+
+            expect(response.statusCode).toEqual(401);
         });
 
-        test("401 of non-authorized", async function () {
+        test("401 on wrong auth", async function () {
             let response = await request(app)
-                .get("users/test1/from")
-                .send({ _token: "wrong"})
-
-            expect(response.statusCode).toEqual(401)
+                .get("/users/test1/from")
+                .send({ _token: "wrong" });
+            expect(response.statusCode).toEqual(401);
         });
     });
+});
+
+afterAll(async function () {
+    await db.end();
 });

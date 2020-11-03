@@ -95,8 +95,8 @@ class User {
   static async messagesFrom(username) {
     const result = await db.query(
       `SELECT m.id,
-              m.to_username,
-              t.first_name AS to_first_name
+              m.to_username AS to_username,
+              t.first_name AS to_first_name,
               t.last_name AS to_last_name,
               t.phone AS to_phone,
               m.body,
@@ -151,10 +151,6 @@ class User {
       [username]);
 
     const messages = result.rows
-
-    if (!messages) {
-      throw new ExpressError(`No messages to user with username: ${username}`, 404)
-    }
 
     return messages.map(r => ({
       id: r.id,
