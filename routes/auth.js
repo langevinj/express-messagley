@@ -1,12 +1,10 @@
-
+const Router = require("express").Router;
 const jwt = require("jsonwebtoken");
-const Router = require("express").Router();
-const router = new Router();
-
 const User = require("../models/user");
 const ExpressError = require("../expressError");
 const { SECRET_KEY } = require("../config");
 
+const router = new Router();
  /**login: {username, password} => {token} */
 router.post("/login", async function(req, res, next) {
     try{

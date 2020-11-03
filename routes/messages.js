@@ -2,6 +2,7 @@ const Router = require("express").Router;
 const Message = require("../models/message")
 const {ensureLoggedIn} = require("../middleware/auth");
 const ExpressError = require("../expressError");
+
 const router = new Router();
 
 /**- get detail of message.
